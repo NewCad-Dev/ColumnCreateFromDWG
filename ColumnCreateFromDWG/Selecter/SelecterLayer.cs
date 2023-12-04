@@ -1,27 +1,23 @@
 ﻿using Autodesk.Revit.DB;
-using System;
+using ColumnCreateFromDWG.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ColumnCreateFromDWG.Creator
+namespace ColumnCreateFromDWG.Selecter
 {
     public class SelecterLayer
     {
+        private List<ImportInstance> dwgForLayer = new SelecterDWG().DwgForLayer;
         public IEnumerable<string> AsSelectLayer(Document doc)
         {
-            IList<string> result = new List<string>();
+            List<string> result = new List<string>();
 
-            if (DwgForLayer.Count > 0)
+            if (dwgForLayer.Count > 0)
             {
-                foreach (ImportInstance imp in DwgForLayer)
+                foreach (ImportInstance imp in dwgForLayer)
                 {
-                    if (imp.Category.Name == CreateColumn_Form.dwg)
+                    if (imp.Category.Name == new ShellViewModel(doc).SelectedDwg)
                     {
-                        pLines.Clear();
-                        pArc.Clear();
-
                         GeometryElement geoElem = imp.get_Geometry(new Options());
 
                         foreach (GeometryObject geoObj in geoElem)
@@ -41,13 +37,11 @@ namespace ColumnCreateFromDWG.Creator
                                         if (obj is PolyLine)
                                         {
                                             result.Add(layer);
-                                            pLines.Add(obj as PolyLine);
                                         }
 
                                         if (obj is Arc)
                                         {
                                             result.Add(layer);
-                                            pArc.Add(obj as Arc);
                                         }
                                     }
                                 }

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ColumnCreateFromDWG.Creator
+namespace ColumnCreateFromDWG.Selecter
 {
     public class SelecterDWG
     {
-        public IList<ImportInstance> DwgForLayer;
-        public IList<string> AsSelectDWG(Document doc)
+        public List<ImportInstance> DwgForLayer { get; set; }
+        public List<string> AsSelectDWG(Document doc)
         {
-            IList<string> result = new List<string>();
+            List<string> result = new List<string>();
 
-            IList<ImportInstance> dwg = new FilteredElementCollector(doc)
+            List<ImportInstance> dwg = new FilteredElementCollector(doc)
                 .WhereElementIsNotElementType()
                 .OfType<ImportInstance>()
                 .ToList();
