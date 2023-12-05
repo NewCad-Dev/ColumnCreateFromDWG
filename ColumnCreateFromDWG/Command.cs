@@ -1,31 +1,33 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
+using ColumnCreateFromDWG.Core;
+using ColumnCreateFromDWG.Selecter;
 using ColumnCreateFromDWG.View;
 using ColumnCreateFromDWG.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DryIoc;
 
 namespace ColumnCreateFromDWG
 {
     [Transaction(TransactionMode.Manual)]
-    public class Command : IExternalCommand
+    public class Command : BaseCommand
     {
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        /*public override void RegisterCustomTypes()
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
+            Container.Register<SelecterDWG>();
+            Container.Register<SelecterLayer>();
+            Container.Register<SelecterLevel>();
+
+            Container.Register<ShellViewModel>();
+        }*/
+
+        public override void Run()
+        {
+            var shellViewModel = Container.Resolve<ShellViewModel>();
 
             var shell = new Shell();
-            var viewModel = new ShellViewModel(doc);
-
-            shell.DataContext = viewModel;
+            shell.DataContext = shellViewModel;
 
             shell.Show();
-
-            return Result.Succeeded;
         }
     }
 }

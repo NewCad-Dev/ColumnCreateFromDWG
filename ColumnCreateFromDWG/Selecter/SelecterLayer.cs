@@ -17,7 +17,7 @@ namespace ColumnCreateFromDWG.Selecter
             {
                 foreach (ImportInstance imp in dwg)
                 {
-                    if (imp.Category.Name == new ShellViewModel(doc).SelectedLayer)
+                    if (imp.Category.Name == new ShellViewModel().SelectedDwg)
                     {
                         GeometryElement geoElem = imp.get_Geometry(new Options());
 

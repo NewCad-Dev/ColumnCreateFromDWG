@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Command.cs" />
     <Compile Include="Core\ActionHandler.cs" />
+    <Compile Include="Core\BaseCommand.cs" />
     <Compile Include="Core\PointMid.cs" />
     <Compile Include="Core\MyEventHandler.cs" />
     <Compile Include="Creator\CreateArc.cs" />

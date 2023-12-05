@@ -14,16 +14,25 @@ namespace ColumnCreateFromDWG.ViewModel
         public string SelectedLevel {  get; set; }
         public IEnumerable<string> Layers { get; set; }
         public string SelectedLayer {  get; set; }
+        public ShellViewModel()
+        {
+            
+        }
         public ShellViewModel(Document doc)
         {
             DWGs = new SelecterDWG().AsSelectDWG(doc);
             Levels = new SelecterLevel().AsSelectLevel(doc);
             // Error: вибиває ошибку по вибору слоя
-            //Layers = new SelecterLayer().AsSelectLayer(doc);
 
             SelectedDwg = DWGs.FirstOrDefault(); //- вибор першого елемента
             SelectedLevel = Levels.FirstOrDefault();
-            //SelectedLayer = Layers.FirstOrDefault();
+
+            if(SelectedDwg != null)
+            {
+                Layers = new SelecterLayer().AsSelectLayer(doc);
+            }
+
+            SelectedLayer = Layers.FirstOrDefault();            
         }
     }
 }
