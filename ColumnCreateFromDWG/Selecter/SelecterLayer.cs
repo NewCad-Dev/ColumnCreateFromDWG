@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using ColumnCreateFromDWG.FindElements;
 using ColumnCreateFromDWG.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +8,16 @@ namespace ColumnCreateFromDWG.Selecter
 {
     public class SelecterLayer
     {
-        private List<ImportInstance> dwgForLayer = new SelecterDWG().DwgForLayer;
         public IEnumerable<string> AsSelectLayer(Document doc)
         {
             List<string> result = new List<string>();
+            List<ImportInstance> dwg = new FindDWG().FindDWGs(doc);
 
-            if (dwgForLayer.Count > 0)
+            if (dwg.Count > 0)
             {
-                foreach (ImportInstance imp in dwgForLayer)
+                foreach (ImportInstance imp in dwg)
                 {
-                    if (imp.Category.Name == new ShellViewModel(doc).SelectedDwg)
+                    if (imp.Category.Name == new ShellViewModel(doc).SelectedLayer)
                     {
                         GeometryElement geoElem = imp.get_Geometry(new Options());
 

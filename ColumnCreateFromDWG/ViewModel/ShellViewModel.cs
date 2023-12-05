@@ -18,9 +18,10 @@ namespace ColumnCreateFromDWG.ViewModel
         {
             DWGs = new SelecterDWG().AsSelectDWG(doc);
             Levels = new SelecterLevel().AsSelectLevel(doc);
-            Layers = new SelecterLayer().AsSelectLayer(doc);
+            // Error: вибиває ошибку по вибору слоя
+            //Layers = new SelecterLayer().AsSelectLayer(doc);
 
-            SelectedDwg = DWGs.FirstOrDefault(); //- вибор першого єлемента
+            SelectedDwg = DWGs.FirstOrDefault(); //- вибор першого елемента
             SelectedLevel = Levels.FirstOrDefault();
             //SelectedLayer = Layers.FirstOrDefault();
         }

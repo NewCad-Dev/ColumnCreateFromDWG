@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using ColumnCreateFromDWG.FindElements;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,17 +7,11 @@ namespace ColumnCreateFromDWG.Selecter
 {
     public class SelecterDWG
     {
-        public List<ImportInstance> DwgForLayer { get; set; }
         public List<string> AsSelectDWG(Document doc)
         {
             List<string> result = new List<string>();
 
-            List<ImportInstance> dwg = new FilteredElementCollector(doc)
-                .WhereElementIsNotElementType()
-                .OfType<ImportInstance>()
-                .ToList();
-
-            DwgForLayer = dwg;
+            List<ImportInstance> dwg = new FindDWG().FindDWGs(doc);
 
             foreach (ImportInstance imp in dwg)
             {

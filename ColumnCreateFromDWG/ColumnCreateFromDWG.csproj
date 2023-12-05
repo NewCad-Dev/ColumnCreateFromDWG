@@ -80,6 +80,9 @@
     <Compile Include="Core\MyEventHandler.cs" />
     <Compile Include="Creator\CreateArc.cs" />
     <Compile Include="Creator\CreatePolyLine.cs" />
+    <Compile Include="FindElements\FindColumns.cs" />
+    <Compile Include="FindElements\FindDWG.cs" />
+    <Compile Include="FindElements\FindLevels.cs" />
     <Compile Include="Selecter\SelecterDwg.cs" />
     <Compile Include="Selecter\SelecterLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
