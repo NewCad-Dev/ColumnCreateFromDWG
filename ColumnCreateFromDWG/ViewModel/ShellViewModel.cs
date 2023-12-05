@@ -59,8 +59,6 @@ namespace ColumnCreateFromDWG.ViewModel
 
         public FamilySymbol SelectedColumn { get; set; }
 
-
-
         public DelegateCommand CreateColumns { get; set; }
 
         public ShellViewModel(
@@ -119,7 +117,7 @@ namespace ColumnCreateFromDWG.ViewModel
 
                     var curves = _layerSelector.AsSelectLayer(_selectedDwg);
 
-                    _columnCreator.Create(document, curves, SelectedLayer.GeometryObject, SelectedLevel, SelectedColumn);
+                    _columnCreator.Create(curves, SelectedLayer, SelectedLevel, SelectedColumn);
 
                     tr.Commit();
                 }

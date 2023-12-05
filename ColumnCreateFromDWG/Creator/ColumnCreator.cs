@@ -1,6 +1,8 @@
-﻿using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.Creation;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
 using ColumnCreateFromDWG.Core;
+using ColumnCreateFromDWG.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -12,7 +14,7 @@ namespace ColumnCreateFromDWG.Creater
         private readonly PointMid pointMid = new PointMid();
         public void Create(
             IList<GeometryObject> curves,
-            GeometryObject selectedLayer,
+            LayerWrapper selectedLayer,
             Level colLevel,
             FamilySymbol familySymbol)
         {
@@ -28,23 +30,23 @@ namespace ColumnCreateFromDWG.Creater
 
                 //TODO: FIX IT!
 
-                //if (layer == selectedLayer)
-                //{
-                //    if (curve is PolyLine polyLine)
-                //    {
-                //        Outline pOutLine = polyLine.GetOutline();
-                //        XYZ firstP = pOutLine.MaximumPoint;
-                //        XYZ secondP = pOutLine.MinimumPoint;
-                //        XYZ lineMid = pointMid.MidPoint(firstP.X, secondP.X, firstP.Y, secondP.Y, firstP.Z, secondP.Z);
+                if (layer == selectedLayer.ToString())
+                {
+                    if (curve is PolyLine polyLine)
+                    {
+                        Outline pOutLine = polyLine.GetOutline();
+                        XYZ firstP = pOutLine.MaximumPoint;
+                        XYZ secondP = pOutLine.MinimumPoint;
+                        XYZ lineMid = pointMid.MidPoint(firstP.X, secondP.X, firstP.Y, secondP.Y, firstP.Z, secondP.Z);
 
-                //        doc.Create.NewFamilyInstance(lineMid, familySymbol, colLevel, StructuralType.Column);
-                //    }
+                        doc.Create.NewFamilyInstance(lineMid, familySymbol, colLevel, StructuralType.Column);
+                    }
 
-                //    else if (curve is Arc arc)
-                //    {
-                //        doc.Create.NewFamilyInstance(arc.Center, familySymbol, colLevel, StructuralType.Column);
-                //    }
-                //}
+                    else if (curve is Arc arc)
+                    {
+                        doc.Create.NewFamilyInstance(arc.Center, familySymbol, colLevel, StructuralType.Column);
+                    }
+                }
             }
         }
     }
