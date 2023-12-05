@@ -1,54 +1,129 @@
 ﻿using Autodesk.Revit.DB;
+using ColumnCreateFromDWG.Core;
 using ColumnCreateFromDWG.Creater;
 using ColumnCreateFromDWG.Selecter;
+using ColumnCreateFromDWG.Wrappers;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using Document = Autodesk.Revit.DB.Document;
 
 namespace ColumnCreateFromDWG.ViewModel
 {
     public class ShellViewModel : BindableBase
     {
         private Document _doc;
-        public List<string> DWGs { get; set; }
-        public string SelectedDwg { get; set; }
-        public List<string> Levels { get; set; }
-        public string SelectedLevel {  get; set; }
-        public IEnumerable<string> Layers { get; set; }
-        public string SelectedLayer {  get; set; }
-        public List<string> Columns { get; set; }
-        public string SelectedColumn { get; set; }
+        private readonly ActionHandler _actionHandler;
+        private readonly SelecterDWG _dwgSelector;
+        private readonly SelecterLevel _levelSelector;
+        private readonly SelecterColumn _columnSelector;
+        private readonly SelecterLayer _layerSelector;
+        private readonly ColumnCreator _columnCreator;
+
+        private ImportInstance _selectedDwg;
+        private ObservableCollection<LayerWrapper> _layers;
+        private LayerWrapper _selectedLayer;
+
+
+        public List<ImportInstance> DWGs { get; set; }
+
+        public ImportInstance SelectedDwg
+        {
+            get => _selectedDwg;
+            set
+            {
+                SetProperty(ref _selectedDwg, value);
+                UpdateLayers();
+            }
+        }
+
+        public List<Level> Levels { get; set; }
+
+        public Level SelectedLevel { get; set; }
+
+        public ObservableCollection<LayerWrapper> Layers
+        {
+            get => _layers;
+            set => SetProperty(ref _layers, value);
+        }
+
+        public LayerWrapper SelectedLayer
+        {
+            get => _selectedLayer;
+            set => SetProperty(ref _selectedLayer, value);
+        }
+
+        public List<FamilySymbol> Columns { get; set; }
+
+        public FamilySymbol SelectedColumn { get; set; }
+
+
 
         public DelegateCommand CreateColumns { get; set; }
 
-        public ShellViewModel(Document doc)
+        public ShellViewModel(
+            Document doc,
+            ActionHandler actionHandler,
+            SelecterDWG dwgSelector,
+            SelecterLevel levelSelector,
+            SelecterColumn columnSelector,
+            SelecterLayer layerSelector,
+            ColumnCreator columnCreator)
         {
-            DWGs = new SelecterDWG().AsSelectDWG(doc);
-            Levels = new SelecterLevel().AsSelectLevel(doc);
-            Columns = new SelecterColumn().AsSelectColumn(doc);
+            _doc = doc;
+            _actionHandler = actionHandler;
+            _dwgSelector = dwgSelector;
+            _levelSelector = levelSelector;
+            _columnSelector = columnSelector;
+            _layerSelector = layerSelector;
+            _columnCreator = columnCreator;
 
-            SelectedDwg = DWGs.FirstOrDefault(); //- вибор першого елемента
-            SelectedLevel = Levels.FirstOrDefault();
-            SelectedColumn = Columns.FirstOrDefault();
-
-            if(SelectedDwg != null)
-            {
-                Layers = new SelecterLayer().AsSelectLayer(doc, SelectedDwg);
-            }
-
-            SelectedLayer = Layers.FirstOrDefault();
+            Initialization();
 
             CreateColumns = new DelegateCommand(CreateColumn);
         }
 
+        private void Initialization()
+        {
+            DWGs = _dwgSelector.AsSelectDWG(_doc);
+            Levels = _levelSelector.AsSelectLevel(_doc);
+            Columns = _columnSelector.AsSelectColumn(_doc);
+
+            SelectedDwg = DWGs.FirstOrDefault(); //- вибор першого елемента
+            SelectedLevel = Levels.FirstOrDefault();
+            SelectedColumn = Columns.FirstOrDefault();
+        }
+
+        private void UpdateLayers()
+        {
+            if (SelectedDwg != null)
+            {
+                Layers = new ObservableCollection<LayerWrapper>(
+                    _layerSelector.AsSelectLayer(SelectedDwg).Select(it => new LayerWrapper(it, _doc)));
+            }
+
+            SelectedLayer = Layers.FirstOrDefault();
+        }
+
         private void CreateColumn()
         {
-            var createColumnPolyLine = new CreatePolyLine();
-            var createColumnArc = new CreateArc();
+            _actionHandler.Run(application =>
+            {
+                var document = application.ActiveUIDocument.Document;
 
-            createColumnArc.CreateColumnsFromArcs(_doc, );
-            createColumnPolyLine.CreateColumnsFromPolylines();
+                using (var tr = new Transaction(document, "Create Column"))
+                {
+                    tr.Start();
+
+                    var curves = _layerSelector.AsSelectLayer(_selectedDwg);
+
+                    _columnCreator.Create(document, curves, SelectedLayer.GeometryObject, SelectedLevel, SelectedColumn);
+
+                    tr.Commit();
+                }
+            });
         }
     }
 }

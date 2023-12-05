@@ -1,6 +1,6 @@
 ﻿using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
 using ColumnCreateFromDWG.Core;
+using ColumnCreateFromDWG.Creater;
 using ColumnCreateFromDWG.Selecter;
 using ColumnCreateFromDWG.View;
 using ColumnCreateFromDWG.ViewModel;
@@ -17,6 +17,9 @@ namespace ColumnCreateFromDWG
             Container.Register<SelecterDWG>();
             Container.Register<SelecterLayer>();
             Container.Register<SelecterLevel>();
+            Container.Register<SelecterColumn>();
+
+            Container.Register<ColumnCreator>();
 
             Container.Register<ShellViewModel>();
         }

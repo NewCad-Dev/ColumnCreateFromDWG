@@ -79,16 +79,19 @@
     <Compile Include="Core\BaseCommand.cs" />
     <Compile Include="Core\PointMid.cs" />
     <Compile Include="Core\MyEventHandler.cs" />
-    <Compile Include="Creator\CreateArc.cs" />
-    <Compile Include="Creator\CreatePolyLine.cs" />
-    <Compile Include="FindElements\FindColumns.cs" />
-    <Compile Include="FindElements\FindDWG.cs" />
-    <Compile Include="FindElements\FindLevels.cs" />
+    <Compile Include="Creator\ColumnCreator.cs" />
+    <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Selecter\SelecterColumn.cs" />
     <Compile Include="Selecter\SelecterDwg.cs" />
     <Compile Include="Selecter\SelecterLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selecter\SelecterLevel.cs" />
+    <Compile Include="Abstraction\IColumnSelector.cs" />
+    <Compile Include="Abstraction\IDWGSelector.cs" />
+    <Compile Include="Abstraction\ILayerSelector.cs" />
+    <Compile Include="Abstraction\ILevelSelector.cs" />
+    <Compile Include="Abstraction\ISelector.cs" />
+    <Compile Include="Wrappers\LayerWrapper.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="View\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>

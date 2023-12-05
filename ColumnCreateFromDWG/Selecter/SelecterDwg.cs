@@ -1,24 +1,17 @@
 ﻿using Autodesk.Revit.DB;
-using ColumnCreateFromDWG.FindElements;
+
 using System.Collections.Generic;
-using System.Linq;
+
+using ColumnCreateFromDWG.Extensions;
 
 namespace ColumnCreateFromDWG.Selecter
 {
     public class SelecterDWG
     {
-        public List<string> AsSelectDWG(Document doc)
+        public SelecterDWG()
         {
-            List<string> result = new List<string>();
-
-            List<ImportInstance> dwg = new FindDWG().FindDWGs(doc);
-
-            foreach (ImportInstance imp in dwg)
-            {
-                result.Add(imp.Category.Name);
-            }
-
-            return result;
         }
+
+        public List<ImportInstance> AsSelectDWG(Document doc) => doc.GetElements<ImportInstance>();
     }
 }

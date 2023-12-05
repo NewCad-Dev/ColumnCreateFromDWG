@@ -1,6 +1,4 @@
 ﻿using Autodesk.Revit.DB;
-using ColumnCreateFromDWG.FindElements;
-using ColumnCreateFromDWG.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,54 +6,39 @@ namespace ColumnCreateFromDWG.Selecter
 {
     public class SelecterLayer
     {
-        public IEnumerable<string> AsSelectLayer(Document doc, string selectedDWG)
+        public List<GeometryObject> AsSelectLayer(ImportInstance importInstance)
         {
-            List<string> result = new List<string>();
-            List<ImportInstance> dwg = new FindDWG().FindDWGs(doc);
+            var result = new List<GeometryObject>();
 
-            if (dwg.Count > 0)
+            GeometryElement geoElem = importInstance.get_Geometry(new Options());
+
+            foreach (GeometryObject geoObj in geoElem)
             {
-                foreach (ImportInstance imp in dwg)
+                if (geoObj is GeometryInstance)
                 {
-                    if (imp.Category.Name == selectedDWG)
+                    GeometryInstance geoInst = (GeometryInstance)geoObj;
+                    GeometryElement geoElement = geoInst.GetInstanceGeometry();
+
+                    if (geoElement != null)
                     {
-                        GeometryElement geoElem = imp.get_Geometry(new Options());
-
-                        foreach (GeometryObject geoObj in geoElem)
+                        foreach (GeometryObject obj in geoElement)
                         {
-                            if (geoObj is GeometryInstance)
-                            {
-                                GeometryInstance geoInst = (GeometryInstance)geoObj;
-                                GeometryElement geoElement = geoInst.GetInstanceGeometry();
-
-                                if (geoElement != null)
-                                {
-                                    foreach (GeometryObject obj in geoElement)
-                                    {
-                                        GraphicsStyle gStyle = doc.GetElement(obj.GraphicsStyleId) as GraphicsStyle;
-                                        string layer = gStyle.GraphicsStyleCategory.Name;
-
-                                        if (obj is PolyLine)
-                                        {
-                                            result.Add(layer);
-
-                                        }
-
-                                        if (obj is Arc)
-                                        {
-                                            result.Add(layer);
-                                        }
-                                    }
-                                }
-                            }
+                            result.Add(obj);
                         }
                     }
                 }
             }
 
-            IEnumerable<string> res = result.Where(s => s.Contains("C_"));
+
+            var res = result.Where(s => FilterLayer(importInstance.Document, s)).ToList();
 
             return res;
+        }
+
+        private bool FilterLayer(Document document, GeometryObject geometryObject)
+        {
+            var gStyle = document.GetElement(geometryObject.GraphicsStyleId) as GraphicsStyle;
+            return gStyle.GraphicsStyleCategory.Name.Contains("C_");
         }
     }
 }
