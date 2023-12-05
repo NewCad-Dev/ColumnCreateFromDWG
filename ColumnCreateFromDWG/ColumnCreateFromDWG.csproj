@@ -84,6 +84,7 @@
     <Compile Include="FindElements\FindColumns.cs" />
     <Compile Include="FindElements\FindDWG.cs" />
     <Compile Include="FindElements\FindLevels.cs" />
+    <Compile Include="Selecter\SelecterColumn.cs" />
     <Compile Include="Selecter\SelecterDwg.cs" />
     <Compile Include="Selecter\SelecterLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -25,7 +25,7 @@ namespace ColumnCreateFromDWG.Core
             Container.Register<ActionHandler>();
             Container.Register<MyEventHandler>();
 
-            //RegisterCustomTypes();
+            RegisterCustomTypes();
 
             try
             {
@@ -41,7 +41,7 @@ namespace ColumnCreateFromDWG.Core
             return Result.Succeeded;
         }
 
-        //public abstract void RegisterCustomTypes();
+        public abstract void RegisterCustomTypes();
 
         public abstract void Run();
     }

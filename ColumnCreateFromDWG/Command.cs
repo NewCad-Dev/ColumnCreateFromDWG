@@ -5,20 +5,21 @@ using ColumnCreateFromDWG.Selecter;
 using ColumnCreateFromDWG.View;
 using ColumnCreateFromDWG.ViewModel;
 using DryIoc;
+using Prism.Commands;
 
 namespace ColumnCreateFromDWG
 {
     [Transaction(TransactionMode.Manual)]
     public class Command : BaseCommand
     {
-        /*public override void RegisterCustomTypes()
+        public override void RegisterCustomTypes()
         {
             Container.Register<SelecterDWG>();
             Container.Register<SelecterLayer>();
             Container.Register<SelecterLevel>();
 
             Container.Register<ShellViewModel>();
-        }*/
+        }
 
         public override void Run()
         {

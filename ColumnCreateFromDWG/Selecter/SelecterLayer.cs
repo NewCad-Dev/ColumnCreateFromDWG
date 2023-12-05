@@ -8,7 +8,7 @@ namespace ColumnCreateFromDWG.Selecter
 {
     public class SelecterLayer
     {
-        public IEnumerable<string> AsSelectLayer(Document doc)
+        public IEnumerable<string> AsSelectLayer(Document doc, string selectedDWG)
         {
             List<string> result = new List<string>();
             List<ImportInstance> dwg = new FindDWG().FindDWGs(doc);
@@ -17,7 +17,7 @@ namespace ColumnCreateFromDWG.Selecter
             {
                 foreach (ImportInstance imp in dwg)
                 {
-                    if (imp.Category.Name == new ShellViewModel().SelectedDwg)
+                    if (imp.Category.Name == selectedDWG)
                     {
                         GeometryElement geoElem = imp.get_Geometry(new Options());
 
@@ -38,6 +38,7 @@ namespace ColumnCreateFromDWG.Selecter
                                         if (obj is PolyLine)
                                         {
                                             result.Add(layer);
+
                                         }
 
                                         if (obj is Arc)
