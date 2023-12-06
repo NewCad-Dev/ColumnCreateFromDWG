@@ -99,8 +99,15 @@ namespace ColumnCreateFromDWG.ViewModel
         {
             if (SelectedDwg != null)
             {
+                /*Layers = new ObservableCollection<LayerWrapper>(
+                    _layerSelector.AsSelectLayer(SelectedDwg)
+                    .Select(it => new LayerWrapper(it, _doc))
+                    .GroupBy(it => it.ToString())
+                    .Select(it => it.First()));*/ // - робочий варіант
+
                 Layers = new ObservableCollection<LayerWrapper>(
-                    _layerSelector.AsSelectLayer(SelectedDwg).Select(it => new LayerWrapper(it, _doc)));
+                    _layerSelector.AsSelectLayer(SelectedDwg)
+                    .Select(it => new LayerWrapper(it, _doc)));
             }
 
             SelectedLayer = Layers.FirstOrDefault();
