@@ -1,8 +1,9 @@
 ﻿using Autodesk.Revit.DB;
+using System;
 
 namespace ColumnCreateFromDWG.Wrappers
 {
-    public class LayerWrapper
+    public class LayerWrapper : IEquatable<LayerWrapper>
     {
         private readonly Document _document;
         public GeometryObject GeometryObject { get; }
@@ -19,5 +20,11 @@ namespace ColumnCreateFromDWG.Wrappers
                 .GraphicsStyleCategory
                 .Name ?? "-- Unknown --";
         }
+
+        public bool Equals(LayerWrapper other) => other != null && this.ToString() == other.ToString();
+
+        public override bool Equals(object obj) => Equals(obj as LayerWrapper);
+
+        public override int GetHashCode() => GeometryObject.GetHashCode();
     }
 }

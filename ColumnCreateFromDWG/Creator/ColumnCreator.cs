@@ -1,11 +1,8 @@
-﻿using Autodesk.Revit.Creation;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
 using ColumnCreateFromDWG.Core;
 using ColumnCreateFromDWG.Wrappers;
-using System;
 using System.Collections.Generic;
-using System.Windows;
 
 namespace ColumnCreateFromDWG.Creater
 {

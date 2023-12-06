@@ -5,6 +5,7 @@ using ColumnCreateFromDWG.Selecter;
 using ColumnCreateFromDWG.Wrappers;
 using Prism.Commands;
 using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -89,7 +90,7 @@ namespace ColumnCreateFromDWG.ViewModel
             Levels = _levelSelector.AsSelectLevel(_doc);
             Columns = _columnSelector.AsSelectColumn(_doc);
 
-            SelectedDwg = DWGs.FirstOrDefault(); //- вибор першого елемента
+            SelectedDwg = DWGs.FirstOrDefault();
             SelectedLevel = Levels.FirstOrDefault();
             SelectedColumn = Columns.FirstOrDefault();
         }
