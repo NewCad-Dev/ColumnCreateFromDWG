@@ -102,6 +102,7 @@
     <Compile Include="View\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Wrappers\LayerWrapperEqualityComparer.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

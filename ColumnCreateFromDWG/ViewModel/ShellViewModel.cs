@@ -103,11 +103,11 @@ namespace ColumnCreateFromDWG.ViewModel
                     _layerSelector.AsSelectLayer(SelectedDwg)
                     .Select(it => new LayerWrapper(it, _doc))
                     .GroupBy(it => it.ToString())
-                    .Select(it => it.First()));*/ // - робочий варіант
+                    .Select(it => it.First()));*/ // - робочий варіант                
+                
 
-                Layers = new ObservableCollection<LayerWrapper>(
-                    _layerSelector.AsSelectLayer(SelectedDwg)
-                    .Select(it => new LayerWrapper(it, _doc)));
+                Layers = new ObservableCollection<LayerWrapper>(_layerSelector.AsSelectLayer(SelectedDwg)
+                    .Select(it => new LayerWrapper(it, _doc)).Distinct(new LayerWrapperEqualityComparer()));
             }
 
             SelectedLayer = Layers.FirstOrDefault();
