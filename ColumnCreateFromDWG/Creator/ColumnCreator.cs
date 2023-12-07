@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
 using ColumnCreateFromDWG.Core;
+using ColumnCreateFromDWG.Models;
 using ColumnCreateFromDWG.Wrappers;
 using System.Collections.Generic;
 
@@ -36,7 +37,10 @@ namespace ColumnCreateFromDWG.Creater
                         XYZ secondP = pOutLine.MinimumPoint;
                         XYZ lineMid = pointMid.MidPoint(firstP.X, secondP.X, firstP.Y, secondP.Y, firstP.Z, secondP.Z);
 
-                        doc.Create.NewFamilyInstance(lineMid, familySymbol, colLevel, StructuralType.Column);
+                        FamilyInstance column = doc.Create.NewFamilyInstance(lineMid, familySymbol, colLevel, StructuralType.Column);
+
+                        ParameterOffset offset = new ParameterOffset();
+                        offset.ChangeOffsetColumns(doc, column);
                     }
 
                     else if (curve is Arc arc)

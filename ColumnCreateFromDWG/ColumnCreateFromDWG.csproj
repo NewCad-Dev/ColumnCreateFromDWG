@@ -87,6 +87,7 @@
     <Compile Include="Core\MyEventHandler.cs" />
     <Compile Include="Creator\ColumnCreator.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
+    <Compile Include="Models\ParameterOffset.cs" />
     <Compile Include="Selecter\SelecterColumn.cs" />
     <Compile Include="Selecter\SelecterDwg.cs" />
     <Compile Include="Selecter\SelecterLayer.cs" />

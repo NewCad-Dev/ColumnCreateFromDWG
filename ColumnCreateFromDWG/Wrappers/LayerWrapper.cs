@@ -6,6 +6,7 @@ namespace ColumnCreateFromDWG.Wrappers
     public class LayerWrapper
     {
         private readonly Document _document;
+
         public GeometryObject GeometryObject { get; }
 
         public LayerWrapper(GeometryObject geometryObject, Document document)

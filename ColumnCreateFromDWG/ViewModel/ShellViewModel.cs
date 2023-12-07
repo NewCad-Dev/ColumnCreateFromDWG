@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using ColumnCreateFromDWG.Core;
 using ColumnCreateFromDWG.Creater;
+using ColumnCreateFromDWG.Models;
 using ColumnCreateFromDWG.Selecter;
 using ColumnCreateFromDWG.Wrappers;
 using Prism.Commands;
@@ -26,6 +27,8 @@ namespace ColumnCreateFromDWG.ViewModel
         private ImportInstance _selectedDwg;
         private ObservableCollection<LayerWrapper> _layers;
         private LayerWrapper _selectedLayer;
+
+        private ParameterOffset _parameterOffset;
 
 
         public List<ImportInstance> DWGs { get; set; }
@@ -62,6 +65,8 @@ namespace ColumnCreateFromDWG.ViewModel
 
         public DelegateCommand CreateColumns { get; set; }
 
+        public ParameterOffset ParameterOffset { get; set; }
+
         public ShellViewModel(
             Document doc,
             ActionHandler actionHandler,
@@ -69,7 +74,8 @@ namespace ColumnCreateFromDWG.ViewModel
             SelecterLevel levelSelector,
             SelecterColumn columnSelector,
             SelecterLayer layerSelector,
-            ColumnCreator columnCreator)
+            ColumnCreator columnCreator,
+            ParameterOffset parameterOffset)
         {
             _doc = doc;
             _actionHandler = actionHandler;
@@ -103,8 +109,7 @@ namespace ColumnCreateFromDWG.ViewModel
                     _layerSelector.AsSelectLayer(SelectedDwg)
                     .Select(it => new LayerWrapper(it, _doc))
                     .GroupBy(it => it.ToString())
-                    .Select(it => it.First()));*/ // - робочий варіант                
-                
+                    .Select(it => it.First()));*/ // - робочий варіант
 
                 Layers = new ObservableCollection<LayerWrapper>(_layerSelector.AsSelectLayer(SelectedDwg)
                     .Select(it => new LayerWrapper(it, _doc)).Distinct(new LayerWrapperEqualityComparer()));
