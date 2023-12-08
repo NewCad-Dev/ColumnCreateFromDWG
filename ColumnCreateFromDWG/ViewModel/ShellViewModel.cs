@@ -24,11 +24,12 @@ namespace ColumnCreateFromDWG.ViewModel
         private readonly SelecterLayer _layerSelector;
         private readonly ColumnCreator _columnCreator;
 
+        private string _baseOffset;
+        private string _topOffset;
+
         private ImportInstance _selectedDwg;
         private ObservableCollection<LayerWrapper> _layers;
         private LayerWrapper _selectedLayer;
-
-        private ParameterOffset _parameterOffset;
 
 
         public List<ImportInstance> DWGs { get; set; }
@@ -65,7 +66,16 @@ namespace ColumnCreateFromDWG.ViewModel
 
         public DelegateCommand CreateColumns { get; set; }
 
-        public ParameterOffset ParameterOffset { get; set; }
+        public string BaseOffset
+        {
+            get => _baseOffset;
+            set => SetProperty(ref _baseOffset, value);
+        }
+        public string TopOffset
+        {
+            get => _topOffset;
+            set => SetProperty(ref _topOffset, value);
+        }
 
         public ShellViewModel(
             Document doc,
@@ -74,8 +84,7 @@ namespace ColumnCreateFromDWG.ViewModel
             SelecterLevel levelSelector,
             SelecterColumn columnSelector,
             SelecterLayer layerSelector,
-            ColumnCreator columnCreator,
-            ParameterOffset parameterOffset)
+            ColumnCreator columnCreator)
         {
             _doc = doc;
             _actionHandler = actionHandler;
@@ -130,7 +139,7 @@ namespace ColumnCreateFromDWG.ViewModel
 
                     var curves = _layerSelector.AsSelectLayer(_selectedDwg);
 
-                    _columnCreator.Create(curves, SelectedLayer, SelectedLevel, SelectedColumn);
+                    _columnCreator.Create(curves, SelectedLayer, SelectedLevel, SelectedColumn, _baseOffset, _topOffset);
 
                     tr.Commit();
                 }

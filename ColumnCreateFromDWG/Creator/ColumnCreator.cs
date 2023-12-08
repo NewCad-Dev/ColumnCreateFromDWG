@@ -14,7 +14,9 @@ namespace ColumnCreateFromDWG.Creater
             IList<GeometryObject> curves,
             LayerWrapper selectedLayer,
             Level colLevel,
-            FamilySymbol familySymbol)
+            FamilySymbol familySymbol,
+            string baseOffset,
+            string topOffset)
         {
             var doc = familySymbol.Document;
 
@@ -40,7 +42,8 @@ namespace ColumnCreateFromDWG.Creater
                         FamilyInstance column = doc.Create.NewFamilyInstance(lineMid, familySymbol, colLevel, StructuralType.Column);
 
                         ParameterOffset offset = new ParameterOffset();
-                        offset.ChangeOffsetColumns(doc, column);
+
+                        offset.ChangeOffsetColumns(doc, column, baseOffset, topOffset);
                     }
 
                     else if (curve is Arc arc)

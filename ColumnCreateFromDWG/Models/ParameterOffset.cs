@@ -1,32 +1,32 @@
 ﻿using Autodesk.Revit.DB;
-using Prism.Mvvm;
+using Autodesk.Revit.UI;
+using System;
 
 namespace ColumnCreateFromDWG.Models
 {
-    public class ParameterOffset : BindableBase
+    public class ParameterOffset
     {
-        private double _baseOffset;
-        private double _topOffset;
-
-        public double BaseOffset
+        public void ChangeOffsetColumns(Document doc, FamilyInstance column, string baseOffset, string topOffset)
         {
-            get => _baseOffset;
-            set => SetProperty(ref _baseOffset, value);
-        }
-        public double TopOffset
-        {
-            get => _topOffset;
-            set => SetProperty(ref _topOffset, value);
-        }
+            Parameter offsetBase = column.get_Parameter(BuiltInParameter.FAMILY_BASE_LEVEL_OFFSET_PARAM);
+            Parameter offsetTop = column.get_Parameter(BuiltInParameter.FAMILY_TOP_LEVEL_OFFSET_PARAM);
 
-        public void ChangeOffsetColumns(Document doc, FamilyInstance column)
-        {
-            Parameter baseOffset = column.get_Parameter(BuiltInParameter.FAMILY_BASE_LEVEL_OFFSET_PARAM);
-            double topOffset = column.get_Parameter(BuiltInParameter.FAMILY_TOP_LEVEL_OFFSET_PARAM).AsDouble();
+            if (Double.TryParse(baseOffset, out double bOffset) && Double.TryParse(topOffset, out double tOffset))
+            {
+                bOffset = Double.Parse(baseOffset);
+                tOffset = Double.Parse(topOffset);
+            }
+            else
+            {
+                TaskDialog.Show("Error", "Error. Please enter a valid number.");
+                return;
+            }
 
-            double baseOffsetMM = UnitUtils.Convert(BaseOffset, UnitTypeId.Feet, UnitTypeId.Millimeters);
+            double baseOffsetMM = UnitUtils.Convert(bOffset, UnitTypeId.Millimeters, UnitTypeId.Feet);
+            double topOffsetMM = UnitUtils.Convert(tOffset, UnitTypeId.Millimeters, UnitTypeId.Feet);
 
-            baseOffset.Set(baseOffsetMM);
+            offsetBase.Set(baseOffsetMM);
+            offsetTop.Set(topOffsetMM);
         }
     }
 }
