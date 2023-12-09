@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
+    <Compile Include="Converter\OffsetConverter.cs" />
     <Compile Include="Core\ActionHandler.cs" />
     <Compile Include="Core\BaseCommand.cs" />
     <Compile Include="Core\PointMid.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Abstraction\ILayerSelector.cs" />
     <Compile Include="Abstraction\ILevelSelector.cs" />
     <Compile Include="Abstraction\ISelector.cs" />
+    <Compile Include="Validation\ExceptionValidationRule.cs" />
     <Compile Include="Wrappers\LayerWrapper.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="View\Shell.xaml.cs">

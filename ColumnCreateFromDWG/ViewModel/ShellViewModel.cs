@@ -24,8 +24,8 @@ namespace ColumnCreateFromDWG.ViewModel
         private readonly SelecterLayer _layerSelector;
         private readonly ColumnCreator _columnCreator;
 
-        private string _baseOffset;
-        private string _topOffset;
+        private double _baseOffset;
+        private double _topOffset;
 
         private ImportInstance _selectedDwg;
         private ObservableCollection<LayerWrapper> _layers;
@@ -66,12 +66,12 @@ namespace ColumnCreateFromDWG.ViewModel
 
         public DelegateCommand CreateColumns { get; set; }
 
-        public string BaseOffset
+        public double BaseOffset
         {
             get => _baseOffset;
             set => SetProperty(ref _baseOffset, value);
         }
-        public string TopOffset
+        public double TopOffset
         {
             get => _topOffset;
             set => SetProperty(ref _topOffset, value);

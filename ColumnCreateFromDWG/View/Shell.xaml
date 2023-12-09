@@ -4,15 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ColumnCreateFromDWG.View"
-             mc:Ignorable="d" 
-             Height="325"
+        xmlns:localOffset="clr-namespace:ColumnCreateFromDWG.Converter"
+        mc:Ignorable="d" 
+        Height="325"
         Width="500"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Title="Create Columns From DWG"
         FontSize="14">
+
+    <Window.Resources>
+        <localOffset:OffsetConverter x:Key="offsetConverter"/>
+    </Window.Resources>
+
     <Grid>
-        <Grid.RowDefinitions>            
+        <Grid.Resources>
+            
+        </Grid.Resources>
+        
+        <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="5*"/>
             <RowDefinition Height="50"/>
@@ -87,12 +97,13 @@
                         BorderBrush="Gray"
                         Width="135"
                         VerticalAlignment="Center">
-                    <TextBox Text="{Binding BaseOffset}"/>
+                    <TextBox x:Name="b_offset"
+                        Text="{Binding BaseOffset}"/>
                 </Border>
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                         Margin="5">
-                <TextBlock Text="Top Offset"
+                <TextBlock x:Name="t_offset" Text="Top Offset"
                            VerticalAlignment="Center"
                            Width="80"/>
                 <Border BorderThickness="1"
@@ -115,7 +126,17 @@
                 Margin="10"
                 Background="#1E90FF"
                 Width="100"
-                Command="{Binding CreateColumns}"/>
+                Command="{Binding CreateColumns}">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=b_offset, Path=(Validation.HasError)}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
 
     </Grid>
 </Window>
