@@ -81,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
-    <Compile Include="Converter\OffsetConverter.cs" />
     <Compile Include="Core\ActionHandler.cs" />
     <Compile Include="Core\BaseCommand.cs" />
     <Compile Include="Core\PointMid.cs" />
